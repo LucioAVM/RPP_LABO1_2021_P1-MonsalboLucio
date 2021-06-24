@@ -1,0 +1,1286 @@
+eclipse.preferences.version=1
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.debug.1994999619/CPATH/delimiter=;
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.debug.1994999619/CPATH/operation=remove
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.debug.1994999619/C_INCLUDE_PATH/delimiter=;
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.debug.1994999619/C_INCLUDE_PATH/operation=remove
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.debug.1994999619/append=true
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.mingw.exe.debug.1994999619/appendContributed=true
+environment/buildEnvironmentLibrary/cdt.managedbuild.config.gnu.mingw.exe.debug.1994999619/LIBRARY_PATH/delimiter=;
+environment/buildEnvironmentLibrary/cdt.managedbuild.config.gnu.mingw.exe.debug.1994999619/LIBRARY_PATH/operation=remove
+environment/buildEnvironmentLibrary/cdt.managedbuild.config.gnu.mingw.exe.debug.1994999619/append=true
+environment/buildEnvironmentLibrary/cdt.managedbuild.config.gnu.mingw.exe.debug.1994999619/appendContributed=true
+
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project>
+	<configuration id="cdt.managedbuild.config.gnu.mingw.exe.debug.1994999619" name="Debug">
+		<extension point="org.eclipse.cdt.core.LanguageSettingsProvider">
+			<provider copy-of="extension" id="org.eclipse.cdt.ui.UserLanguageSettingsProvider"/>
+			<provider-reference id="org.eclipse.cdt.core.ReferencedProjectsLanguageSettingsProvider" ref="shared-provider"/>
+			<provider-reference id="org.eclipse.cdt.managedbuilder.core.MBSLanguageSettingsProvider" ref="shared-provider"/>
+			<provider class="org.eclipse.cdt.managedbuilder.internal.language.settings.providers.GCCBuiltinSpecsDetectorMinGW" console="false" env-hash="766132112434618236" id="org.eclipse.cdt.managedbuilder.core.GCCBuiltinSpecsDetectorMinGW" keep-relative-paths="false" name="CDT GCC Built-in Compiler Settings MinGW" parameter="${COMMAND} ${FLAGS} -E -P -v -dD &quot;${INPUTS}&quot;" prefer-non-shared="true">
+				<language-scope id="org.eclipse.cdt.core.gcc"/>
+				<language-scope id="org.eclipse.cdt.core.g++"/>
+			</provider>/*
+ ============================================================================
+ Name        : RPP_LABO1_2021_P1_MonsalboLucio.c
+ Author      : Monsalbo Lucio
+ Version     :
+ Copyright   : Your copyright notice
+ Description : Hello World in C, Ansi-style
+ ============================================================================
+ */
+
+#include "contribuyente.h"
+#define TAM_ESTRUCTURA 5
+
+int main(void)
+{
+	setbuf(stdout, NULL);
+
+	int opcionMenu;
+	int idAutoincremental = 1000;
+	int idRecaudacion = 100;
+	contribuyente miContribuyente[TAM_ESTRUCTURA];
+	recaudacion nuevaRecaudacion;
+
+	int validacionAlta;
+
+	do
+	{
+		printf("1- Alta de Contribuyente\n"
+				"2- Modificar datos del contribuyente\n"
+				"3- Baja de contribuyente\n"
+				"4- Recaudaci�n\n"
+				"5- Refinanciar Recaudaci�n\n"
+				"6- Saldar Recaudaci�n\n"
+				"7- Imprimir Contribuyentes\n"
+				"8- Imprimir Recaudaci�n\n");
+		scanf("%d", &opcionMenu);
+
+		switch(opcionMenu)
+		{
+		case 1:// ALTA CONTRIBUYENTE
+			altaTrabajo(miContribuyente, TAM_ESTRUCTURA, &idAutoincremental);
+			break;
+
+		case 2:// MODIFICACION DATOS CONTRIBUYENTE
+			modificarContribuyente(miContribuyente, TAM_ESTRUCTURA);
+			break;
+
+		case 3:// BAJA CONTRIBUYENTE
+			bajaTrabajo(miContribuyente, TAM_ESTRUCTURA);
+			break;
+
+		case 4:// RECAUDACION
+			altaRecaudacion(nuevaRecaudacion, TAM_ESTRUCTURA, idRecaudacion);
+			break;
+
+		case 5:// REFINANCIAR RECAUDACION
+			refinanciarRecaudacion(miContribuyente, TAM_ESTRUCTURA);
+			break;
+
+		case 6:// SALDAR RECAUDACION
+			saldarRecaudacion(miContribuyente ,TAM_ESTRUCTURA);
+			break;
+
+		case 7:// IMPRIMIR CONTRIBUYENTE
+
+			break;
+
+		case 8:// IMPRIMIR RECAUDACION
+
+			break;
+
+		case 9:
+			mostrarContribuyenteRefinanciados(miContribuyente, TAM_ESTRUCTURA);
+			break;
+
+		case 10:
+			RecaudacionesMayoresA1000(miContribuyente, TAM_ESTRUCTURA);
+			break;
+
+		case 11:
+			infoContribuyentes(miContribuyente, TAM_ESTRUCTURA);
+			break;
+
+		case 12:
+			contribuyentesFebrero(miContribuyente, TAM_ESTRUCTURA);
+			break;
+		}
+
+
+	}while(opcionMenu!= 9);
+
+
+	return EXIT_SUCCESS;
+}
+
+/*
+ * tipoRecaudacion.c
+ *
+ *  Created on: 24 jun. 2021
+ *      Author: Ususario
+ */
+
+#include "tipoRecaudacion.h"
+#include "contribuyente.h"
+
+int tipoRecaudacion_obtenerID(int idIncremental)
+{
+	int retorno;
+
+	retorno = idIncremental+1;
+
+	return retorno;
+}
+
+void refinanciarRecaudacion(contribuyente infoContribuyente ,int TAM)
+{
+	int idUsuario;
+	tipoRecaudacion idBusqueda;
+	char nombre[50];
+	char apellido[50];
+	int cuil;
+	int respuestaUsuario;
+
+	printf("ingrese id de recaudacion del contribuyente:");
+	scanf("%d", idUsuario);
+
+	idBusqueda = infoContribuyente.recaudacion;
+
+	idUsuario = buscarId(idBusqueda, TAM, idUsuario);
+
+	nombre = infoContribuyente[idUsuario].nombre;
+	apellido = infoContribuyente[idUsuario].apellido;
+	cuil = infoContribuyente[idUsuario].cuil;
+
+	printf("desea cambiar el estado de %s %s de cuil %d a 'refinanciar'?\n 1)SI 2)NO",nombre, apellido, cuil);
+	scanf("%d",respuestaUsuario);
+	if(respuestaUsuario!=1 && respuestaUsuario!=2)
+	{
+		printf("ERROR,desea cambiar el estado de %s %s de cuil %d a 'refinanciar'?\n 1)SI 2)NO",nombre, apellido, cuil);
+		scanf("%d",respuestaUsuario);
+	}else{
+		if(respuestaUsuario ==1)
+		{
+			infoContribuyente.recaudacion.tipo.estado = REFINANCIAR;
+		}
+	}
+}
+
+void saldarRecaudacion(contribuyente infoContribuyente ,int TAM)
+{
+	int idUsuario;
+	tipoRecaudacion idBusqueda;
+	char nombre[50];
+	char apellido[50];
+	int cuil;
+	int respuestaUsuario;
+
+	printf("ingrese id de recaudacion del contribuyente:");
+	scanf("%d", idUsuario);
+
+	idBusqueda = infoContribuyente.recaudacion;
+
+	idUsuario = buscarId(idBusqueda, TAM, idUsuario);
+
+	nombre = infoContribuyente[idUsuario].nombre;
+	apellido = infoContribuyente[idUsuario].apellido;
+	cuil = infoContribuyente[idUsuario].cuil;
+
+	printf("desea cambiar el estado de %s %s de cuil %d a 'saldado'?\n 1)SI 2)NO",nombre, apellido, cuil);
+	scanf("%d",respuestaUsuario);
+	if(respuestaUsuario!=1 && respuestaUsuario!=2)
+	{
+		printf("ERROR,desea cambiar el estado de %s %s de cuil %d a 'saldado'?\n 1)SI 2)NO",nombre, apellido, cuil);
+		scanf("%d",respuestaUsuario);
+	}else{
+		if(respuestaUsuario ==1)
+		{
+				infoContribuyente.recaudacion.tipo.estado = SALDADO;
+		}
+	}
+}
+
+/*
+ * tipoRecaudacion.h
+ *
+ *  Created on: 24 jun. 2021
+ *      Author: Ususario
+ */
+
+#ifndef TIPORECAUDACION_H_
+#define TIPORECAUDACION_H_
+
+typedef struct
+{
+	int ARBA;
+	int IIBB;
+	int GANANCIAS;
+	int estado;
+	int idRecaudacion;
+}tipoRecaudacion;
+
+int tipoRecaudacion_obtenerID(int idIncremental);
+
+#endif /* TIPORECAUDACION_H_ */
+
+/*
+ * utn.c
+ *
+ *  Created on: 22 jun. 2021
+ *      Author: Ususario
+ */
+
+#include "utn.h"
+
+                              //VALIDACIONES NUMEROS//
+int getFloat(char* resultado, char *mensaje, char* mensajeError, int minimo, int maximo,int reintentos)
+{
+	int retorno;
+	float auxiliarFloat;
+	int i;
+
+	retorno =-1;
+
+	if(resultado!=NULL && mensaje!=NULL && mensajeError!=NULL && minimo<=maximo && reintentos>=0)
+	{
+		for(reintentos=i ; i>-1 ; i--)
+		{
+			printf("%s",mensaje);
+			//fflush("stdin");
+			scanf("%f",&auxiliarFloat);
+			if(auxiliarFloat>minimo && auxiliarFloat<maximo)
+			{
+				auxiliarFloat=*resultado;
+				retorno = 0;
+				break;
+			}else{
+				printf("\nEl numero ingresado no esta dentro del limite(%d-%d), intente nuevamente\n",minimo,maximo);
+			}
+		}
+	}
+    return retorno;
+}
+
+
+int getInt(char* resultado, char *mensaje, char* mensajeError, int minimo, int maximo,int reintentos)
+{
+	int retorno;
+	int auxiliarInt;
+
+	retorno =-1;
+
+	if(resultado!=NULL && mensaje!=NULL && mensajeError!=NULL && minimo>=maximo && reintentos>-1)
+	{
+		for(reintentos;reintentos<-1;reintentos--)
+		{
+			printf("%s",mensaje);
+			fflush(stdin);
+			scanf("%d",&auxiliarInt);
+			if(auxiliarInt>minimo && auxiliarInt<maximo)
+			{
+				auxiliarInt=*resultado;
+				retorno = 0;
+				break;
+			}else{
+				printf("\nEl numero ingresado no esta dentro del limite(%d-%d), intente nuevamente\n",minimo, maximo);
+			}
+		}
+	}
+    return retorno;
+}
+
+/* **************************VALIDACION CARACTERES*************************** */
+
+
+int getChar(char* resultado, char *mensaje, char* mensajeError,int reintentos)
+{
+	int retorno;
+	char auxiliarChar[100];
+
+	retorno =-1;
+
+	if(resultado!=NULL && mensaje!=NULL && mensajeError!=NULL && reintentos>=0)
+	{
+		while(reintentos>-1)
+		{
+			reintentos--;
+
+			printf("%s",mensaje);
+			fflush(stdin);
+
+			scanf("%s",&auxiliarChar);
+
+			strcpy(auxiliarChar, *resultado);
+			retorno = 0;
+			break;
+		}
+	}
+    return retorno;
+}
+
+
+
+//char getNumeroAleatorio(int desde , int hasta, int iniciar)
+//{
+//    if(iniciar)
+//        srand (time(NULL));
+//    return desde + (rand() % (hasta + 1 - desde)) ;
+//}
+
+/**
+ * \brief Solicita un texto al usuario y lo devuelve
+ * \param mensaje Es el mensaje a ser mostrado
+ * \param input Array donde se cargar� el texto ingresado
+ * \return void
+ */
+
+void getString(char mensaje[],char input[])
+{
+    printf("%s",mensaje);
+    scanf ("%s", input);
+}
+
+
+int getStringLetras(char mensaje[],char input[])
+{
+    char aux[256];
+    int retorno;
+    retorno = -1;
+    int intentos;
+
+    intentos = 5;
+
+    do{
+    	getString(mensaje,aux);
+    	if(soloLetras(aux))
+    	{
+    		strcpy(input,aux);
+    		retorno = 0;
+    	}else{
+    		intentos--;
+    		printf("no se ah ingresado solo letras intente nuevamente(quedan %d intentos):",intentos);
+    		if(intentos == 0)
+    		{
+    			retorno = -2;
+    			break;
+    		}
+    	}
+    }while(retorno == -1);
+
+    return retorno;
+}
+
+
+int soloLetras(char str[])
+{
+   int i=0;
+   int retorno;
+
+   retorno = -1;
+
+   while(str[i] != '\0')
+   {
+       if((str[i] != ' ') && (str[i] < 'a' || str[i] > 'z') && (str[i] < 'A' || str[i] > 'Z'))
+           retorno = 0;
+       i++;
+   }
+   return retorno;
+}
+
+
+int getNumeros(char mensaje[])
+{
+    int numeroIngresado;
+    int  retorno;
+    int intentos;
+
+    intentos = 5;
+
+    retorno = -1;
+
+    do
+    {
+    	numeroIngresado = getDataNum(mensaje);
+    	if(isdigit(numeroIngresado) != 0)
+    	{
+    		retorno = numeroIngresado;
+    		retorno = 0;
+    	}else{
+    		intentos--;
+    		printf("no se ah ingresado solo numeros intente nuevamente(quedan %d intentos):",intentos);
+    		if(intentos == 0)
+    		{
+    			retorno = -2;
+    			break;
+    		}
+    	}
+    }while(retorno == -1);
+
+    return retorno;
+}
+
+int getDataNum(char mensaje[])
+{
+	int retorno;
+
+	printf(mensaje);
+	scanf("%d", &retorno);
+
+	return retorno;
+}
+
+/*
+ * utn.h
+ *
+ *  Created on: 22 jun. 2021
+ *      Author: Ususario
+ */
+
+#ifndef UTN_H_
+#define UTN_H_
+
+#include <stdio.h>
+#include <stdlib.h>
+#include "contribuyente.h"
+
+/**
+ * \brief Solicita un n�mero al usuario y devuelve el resultado
+ * \param mensaje Es el mensaje a ser mostrado
+ * \return El n�mero ingresado por el usuario
+ *
+ */
+int getFloat(char* resultado, char *mensaje, char* mensajeError, int minimo, int maximo,int reintentos);
+
+/**
+ * \brief Solicita un n�mero al usuario y devuelve el resultado
+ * \param mensaje Es el mensaje a ser mostrado
+ * \return El n�mero ingresado por el usuario
+ *
+ */
+int getInt(char* resultado, char *mensaje, char* mensajeError, int minimo, int maximo,int reintentos);
+
+
+/**
+ * \brief Solicita un caracter al usuario y devuelve el resultado
+ * \param mensaje Es el mensaje a ser mostrado
+ * \return El caracter ingresado por el usuario
+ *
+ */
+int getChar(char* resultado, char *mensaje, char* mensajeError, int reintentos);
+
+
+/**
+ * \brief Genera un n�mero aleatorio
+ * \param desde N�mero aleatorio m�nimo
+ * \param hasta N�mero aleatorio m�ximo
+ * \param iniciar Indica si se trata del primer n�mero solicitado 1 indica que si
+ * \return retorna el n�mero aleatorio generado
+ *
+ */
+char getNumeroAleatorio(int desde , int hasta, int iniciar);
+
+
+/**
+ * \brief Solicita un texto al usuario y lo devuelve
+ * \param mensaje Es el mensaje a ser mostrado
+ * \param input Array donde se cargar� el texto ingresado
+ * \return void
+ */
+void getString(char mensaje[],char input[]);
+
+
+/**
+ * \brief Solicita un texto al usuario y lo devuelve por parametro
+ * \param mensaje Es el mensaje a ser mostrado
+ * \param input Array donde se cargar� el texto ingresado
+ * \return retorno = -2; fallo 5 veces
+ * 			retorno = 0; todo ok
+ */
+int getStringLetras(char mensaje[],char input[]);
+
+
+/**
+ * \brief Verifica si el valor recibido contiene solo letras
+ * \param str Array con la cadena a ser analizada
+ * \return 1 si contiene solo ' ' y letras y 0 si no lo es
+ *
+ */
+int soloLetras(char str[]);
+
+
+/**
+ * \brief Solicita un texto num�rico al usuario y lo devuelve
+ * \param mensaje Es el mensaje a ser mostrado
+ * \param input Array donde se cargar� el texto ingresado
+ * \return 1 si el texto contiene solo n�meros
+ */
+int getNumeros(char mensaje[]);
+
+int getDataNum(char mensaje[]);
+
+#endif /* UTN_H_ */
+
+/*
+ * contribuyente.c
+ *
+ *  Created on: 22 jun. 2021
+ *      Author: Ususario
+ */
+
+#include "contribuyente.h"
+
+//int altaContribuyete(contribuyente miContribuyente,int *id);
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void altaTrabajo(contribuyente miContribuyente[], int TAM,int *idIncremental)
+{
+	contribuyente auxContribuyente;
+	int index;
+	int validacionUsuario;
+
+	auxContribuyente =  contribuyente_Alta( miContribuyente, TAM, &idIncremental, &index);
+
+	printf("esta seguro que quiere dar da alta el usuario ingresado?\n"
+			"1) SI\n"
+			"2) NO\n");
+	scanf("%d", validacionUsuario);
+	while(validacionUsuario!=1 && validacionUsuario!=2)
+	{
+		printf("ERROR, Ingrese una de las opciones\n"
+				"esta seguro que quiere dar da alta el usuario ingresado?\n"
+				"1) SI\n"
+				"2) NO\n");
+		scanf("%d", validacionUsuario);
+	}
+
+	if(validacionUsuario==1)
+	{
+		auxContribuyente.isEmpty = 1;//CAMBIO SU ESTADO A "OCUPADO"
+
+		miContribuyente[index] = auxContribuyente;//SETEO EL ARRAY CON AUXILIAR EN INDEX LIBRE OBTENIDO PREVIAMENTE
+	}else{
+		printf("se ha cancelado el alta con exito");
+	}
+}
+
+contribuyente contribuyente_Alta(contribuyente array[], int TAM,int *idIncremental, int *index)
+{
+	contribuyente auxTrabajos;
+
+	//BUSCO ESPACIO EN ARRAY
+	*index = contribuyente_ObtenerIndexLibre(array, TAM);
+
+	//SI INDEX == -1 ARRAY LLENO
+	//SI INDEX != -1 TENGO EN INDEX POSICION DE ARRAY LIBRE
+
+	auxTrabajos = contribuyente_CargarDatos(); //PIDO DATOS - CARGO EN CONTRIBUYENTE AUXILIAR
+
+	auxTrabajos.id = contribuyente_obtenerID(*idIncremental); //SETEO ID UNICO - VARIABLE ESTATICA AUTOINCREMENTAL
+
+	return auxTrabajos;
+}
+
+int obtenerLibre(contribuyente array[],int TAM)
+{
+	int retorno;
+	int i;
+
+	retorno = -1;// si espacios libres
+
+	for(i=0;i<TAM;i++)
+	{
+		if(array[i].isEmpty == 0)
+		{
+			retorno = i;
+		}
+	}
+
+	return retorno;
+}
+
+int contribuyente_obtenerID(int idIncremental)
+{
+	int retorno;
+
+	retorno = idIncremental+1;
+
+	return retorno;
+}
+
+contribuyente contribuyente_CargarDatos()
+{
+	char nombre[50];
+	char apellido[50];
+	int validarCuil;
+	int validarApellido;
+	int validarNombre;
+	contribuyente miContribuyente;
+
+	validarCuil = pedirCuil();
+	validarApellido = pedirApellido(apellido);
+	validarNombre = pedirNombre(nombre);
+
+	if(validarCuil != -1 && validarApellido == 0 && validarNombre == 0)
+	{
+		strcpy(miContribuyente.nombre, nombre);
+		strcpy(miContribuyente.apellido, apellido);
+		miContribuyente.cuil = validarCuil;
+	}
+
+	return miContribuyente;
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+int pedirNombre(char nombre[])
+{
+	int validacionNombres;
+
+	do
+	{
+		validacionNombres = getStringLetras("ingrese nombre del contribuyente",nombre);
+		if(validacionNombres == -2)
+		{
+			printf("no se ah podido cargar el nombre correctamente, desea intentarlo nuevamente?");
+			scanf("%d", &validacionNombres);
+		}
+	}while(validacionNombres ==-2 || validacionNombres == -1);
+
+	return validacionNombres;
+}
+
+int pedirApellido(char apellido[])
+{
+	int validacionApellidos;
+
+	do
+	{
+		validacionApellidos= getStringLetras("ingrese apellido del contribuyente",apellido);
+		if(validacionApellidos == -2 || validacionApellidos == -1)
+		{
+			printf("no se ah podido cargar el apellido correctamente, desea intentarlo nuevamente?\n 1) SI\n 2) NO");
+			scanf("%d", &validacionApellidos);
+		}
+	}while(validacionApellidos!=0 && validacionApellidos != 2);
+
+	return validacionApellidos;
+}
+
+int pedirCuil()
+{
+	int cuil;
+
+	do
+	{
+		cuil = getNumeros("ingrese el numero de cuil del contribuyente");
+		if(cuil == -2 || cuil == -1)
+		{
+			printf("no se ah podido cargar el cuil correctamente, desea intentarlo nuevamente?\n 1) SI\n 2) NO");
+			scanf("%d", &cuil);
+		}
+	}while(cuil !=0 && cuil != 1);
+
+	return cuil;
+}
+
+void modificarContribuyente(contribuyente miContribuyente, int TAM)
+{
+	contribuyente auxiliar;
+	int id;
+
+	printf("ingrese el id que desea modificar\n\n");
+	scanf("%d", id);
+
+	id = buscarId( miContribuyente, TAM, id);
+	if(id == -1)
+	{
+		printf("no se pudo encontrar el id");
+	}else{
+		auxiliar = contribuyente_ModificarUno( miContribuyente, id);
+	}
+
+	 auxiliar = contribuyente_ModificarUno(miContribuyente);
+	 buscarId( miContribuyente, TAM, &id);
+}
+
+int buscarId(contribuyente list, int TAM,int id)
+{
+	int retorno = -1;
+	int i;
+
+	//SI EXISTE EL ARRAY Y EL LIMITE ES VALIDO
+	if (list != NULL && TAM > 0)
+	{
+		//RECORRO TODO EL ARRAY
+		for (i = 0; i < TAM; i++)
+		{
+			//BUSCO QUE ESTE "OCUPADO" Y QUE CONCIDA EL ID QUE ESTOY BUSCANDO
+			if (list[i].id == id && list[i].isEmpty == 0)
+			{
+				//SI ENCONTRE EL ID
+				//DEVUELVO EL INDEX DE DONDE ESTA EL ID BUSCADO Y SALGO
+				retorno = i;
+				break;
+			}
+		}
+	}
+	return retorno;
+}
+
+int contribuyente_ModificarUno(contribuyente miContribuyente, int id)
+{
+	int retorno;
+	char nombre[50];
+	char apellido[50];
+	int cuil;
+	int validacionNombres;
+	int validacionApellidos;
+	int respuestaUsuario;
+	int validacionUsuario;
+	int validacion;
+
+	printf("ingrese segun desee modificar:\n 1)Nombre\n 2)apellido\n 3)CUIL");
+	scanf("%d", respuestaUsuario);
+	do
+	{
+		printf("ERROR,ingrese segun desee modificar:\n 1)Nombre\n 2)apellido\n 3)CUIL");
+		scanf("%d", respuestaUsuario);
+	}while(respuestaUsuario !=1 && respuestaUsuario !=2 && respuestaUsuario !=3);
+
+	switch(respuestaUsuario)
+	{
+	case 1:
+		validacionNombres = pedirNombre(nombre);
+		break;
+
+	case 2:
+		validacionApellidos = pedirApellido(apellido);
+		break;
+
+	case 3:
+		cuil = pedirCuil();
+		break;
+	}
+
+	printf("estas seguro de realizar la modificacion?\n 1)SI\n 2)NO");
+	scanf("%d", &validacion);
+	if(validacion==1)
+	{
+		switch(respuestaUsuario)
+		{
+		case 1:
+			strcpy(miContribuyente.nombre, nombre);
+			break;
+
+		case 2:
+			strcpy(miContribuyente.apellido, apellido);
+			break;
+
+		case 3:
+			miContribuyente.cuil = cuil;
+			break;
+		}
+		printf("la marca se modifico con exito\n");
+	}else{
+		if(validacion==2)
+		{
+			printf("se anulo la modificacion\n");
+			break;
+		}else{
+			printf("ERROR, vuelva a intentarlo\n");
+		}
+	}
+	return retorno;
+}
+
+void bajaTrabajo(contribuyente miContribuyente, int TAM)
+{
+	int id;
+	int i;
+	int validacion;
+
+	printf("ingrese el id que desea dar de baja\n\n");
+	scanf("%d", id);
+
+	i = buscarId( miContribuyente, TAM, id);
+	if(id == -1)
+	{
+		printf("no se pudo encontrar el id");
+	}else{
+		printf("esta seguro que desea borrar el siguiente trabajo:\n %d\n"
+				"1) SI"
+				"2) NO", miContribuyente[i].id);
+		scanf("%d", validacion);
+		while(validacion<1 && validacion>2)
+		{
+			printf("ERROR, elija una de las opciones:\n"
+					"esta seguro que desea borrar el siguiente trabajo:\n %d\n"
+					"1) SI"
+					"2) NO", miContribuyente[i].id);
+			scanf("%d", validacion);
+		}
+		if(validacion==1)
+		{
+			miContribuyente[i].isEmpty = 0;
+		}
+	}
+}
+
+void mostrarContribuyenteRefinanciados(contribuyente miContribuyente, int TAM)
+{
+	int i;
+	char nombre[30];
+	char apellido[30];
+	int cuil;
+
+	printf("\nLos contribuyentes con mas recaudaciones en estado 'refinanciar' son:\n");
+	for(i = 0; i<TAM; i++)
+	{
+		if(miContribuyente[i].miRecaudacion.tipo.estado == REFINANCIAR)
+		{
+			strcpy(nombre,miContribuyente.nombre);
+			strcpy(apellido,miContribuyente.apellido);
+			cuil = miContribuyente.cuil;
+
+			printf("%s %s con el cuil N %d\n", nombre, apellido, cuil);
+		}
+	}
+}
+
+void contribuyentesFebrero(contribuyente miContribuyente, int TAM)
+{
+	int i;
+	char nombre[30];
+	int cuil;
+
+	printf("\ncontribuyentes que pagaron impuestos en febrero\n");
+
+	for(i=0;i<TAM;i++)
+	{
+		if(miContribuyente.miRecaudacion.mes == 2)
+		{
+			strcpy(miContribuyente.nombre,nombre);
+			cuil = miContribuyente.cuil;
+
+			printf("%s cuil N %d\n",nombre,cuil);
+		}
+	}
+}
+
+void infoContribuyentes(contribuyente miContribuyente, int TAM)
+{
+	int i;
+	char nombre[30];
+	char apellido[30];
+	int cuil;
+	int id;
+
+	printf("contribuyentes ARBA");
+	for(i=0;i<TAM;i++)
+	{
+		if(miContribuyente.miRecaudacion.tipo == miContribuyente.miRecaudacion.tipo.ARBA)
+		{
+			strcpy(miContribuyente.nombre,nombre);
+			strcpy(apellido,miContribuyente.apellido);
+			cuil = miContribuyente.cuil;
+			id = miContribuyente.id;
+			printf("%s %s, cuil N %d, id N %d",nombre, apellido, cuil, id);
+		}
+	}
+
+	printf("contribuyentes IIBB");
+	for(i=0;i<TAM;i++)
+	{
+		if(miContribuyente.miRecaudacion.tipo == miContribuyente.miRecaudacion.tipo.IIBB)
+		{
+			strcpy(miContribuyente.nombre,nombre);
+			strcpy(apellido,miContribuyente.apellido);
+			cuil = miContribuyente.cuil;
+			id = miContribuyente.id;
+			printf("%s %s, cuil N %d, id N %d",nombre, apellido, cuil, id);
+		}
+	}
+
+	printf("contribuyentes GANANCIAS");
+	for(i=0;i<TAM;i++)
+	{
+		if(miContribuyente.miRecaudacion.tipo == miContribuyente.miRecaudacion.tipo.GANANCIAS)
+		{
+			strcpy(miContribuyente.nombre,nombre);
+			strcpy(apellido,miContribuyente.apellido);
+			cuil = miContribuyente.cuil;
+			id = miContribuyente.id;
+			printf("%s %s, cuil N %d, id N %d",nombre, apellido, cuil, id);
+		}
+	}
+}
+
+/*
+ * contribuyente.h
+ *
+ *  Created on: 22 jun. 2021
+ *      Author: Ususario
+ */
+
+#ifndef CONTRIBUYENTE_H_
+#define CONTRIBUYENTE_H_
+
+#include <stdio.h>
+#include <stdlib.h>
+#include "string.h"
+#include "utn.h"
+#include "ctype.h"
+
+#define REFINANCIAR 8
+#define SALDADO 9
+
+typedef struct
+{
+	char nombre[30];
+	char apellido[30];
+	int cuil;
+	int id;
+	recaudacion miRecaudacion;
+	int isEmpty;// 1 OCUPADO   0 LIBRE
+}contribuyente;
+
+/*
+ * contribuyente.c
+ *
+ *  Created on: 22 jun. 2021
+ *      Author: Ususario
+ */
+
+#include "contribuyente.h"
+
+void altaTrabajo(contribuyente miContribuyente[], int TAM,int *idIncremental);
+
+contribuyente contribuyente_Alta(contribuyente array[], int TAM,int *idIncremental, int *index);
+
+int obtenerLibre(contribuyente array[],int TAM);
+
+int contribuyente_obtenerID(int idIncremental);
+
+contribuyente contribuyente_CargarDatos();
+
+int pedirNombre(char nombre[]);
+
+int pedirApellido(char apellido[]);
+
+int pedirCuil();
+
+void modificarContribuyente(contribuyente miContribuyente, int TAM);
+
+int buscarId(contribuyente list, int TAM,int id);
+
+int contribuyente_ModificarUno(contribuyente miContribuyente, int id);
+
+void bajaTrabajo(contribuyente miContribuyente, int TAM);
+#endif /* CONTRIBUYENTE_H_ */
+
+/*
+ * recaudacion.c
+ *
+ *  Created on: 23 jun. 2021
+ *      Author: Ususario
+ */
+
+#include "recaudacion.c"
+#include "contribuyente.h"
+
+void altaRecaudacion(recaudacion nuevaRecaudacion, int TAM, int idAutoincremental)
+{
+	recaudacion auxRecaudacion;
+		int index;
+		int validacionUsuario;
+
+		auxRecaudacion =  recaudacion_Alta( nuevaRecaudacion, TAM, &idAutoincremental, &index);
+
+		printf("esta seguro que quiere dar da alta el usuario ingresado?\n"
+				"1) SI\n"
+				"2) NO\n");
+		scanf("%d", validacionUsuario);
+		while(validacionUsuario!=1 && validacionUsuario!=2)
+		{
+			printf("ERROR, Ingrese una de las opciones\n"
+					"esta seguro que quiere dar da alta el usuario ingresado?\n"
+					"1) SI\n"
+					"2) NO\n");
+			scanf("%d", validacionUsuario);
+		}
+
+		if(validacionUsuario==1)
+		{
+			auxRecaudacion.tipo.estado = 1;//CAMBIO SU ESTADO A "OCUPADO"
+
+			nuevaRecaudacion[index] = auxRecaudacion;//SETEO EL ARRAY CON AUXILIAR EN INDEX LIBRE OBTENIDO PREVIAMENTE
+		}else{
+			printf("se ha cancelado el alta con exito");
+		}
+	}
+
+recaudacion recaudacion_Alta(recaudacion nuevaRecaudacion,int TAM,int *idAutoincremental,int *index)
+{
+	contribuyente auxTrabajos;
+	int idUsuario;
+
+	//BUSCO ID
+	printf("ingrese id del contribuyente:");
+	scanf("%d", idUsuario);
+	idUsuario = buscarId(nuevaRecaudacion, TAM, idUsuario);
+
+	//SI INDEX == -1 ARRAY LLENO
+	//SI INDEX != -1 TENGO EN INDEX POSICION DE ARRAY LIBRE
+
+	auxTrabajos = recaudacion_CargarDatos(idUsuario); //PIDO DATOS - CARGO EN CONTRIBUYENTE AUXILIAR
+
+	return auxTrabajos;
+}
+
+void recaudacion_CargarDatos(int id)
+{
+	recaudacion nuevaRecaudacion;
+	int mes;
+	int validacionMes;
+	int tipo;
+	int importe;
+	int validacionImporte;
+
+	do
+	{
+		validacionMes= getStringLetras("ingrese mes de la recaudacion(de forma numerica)",mes);
+		if(validacionMes == -2 || validacionMes == -1)
+		{
+			printf("no se ah podido cargar el mes correctamente, desea intentarlo nuevamente?\n 1) SI\n 2) NO");
+			scanf("%d", &validacionMes);
+		}
+	}while(validacionMes!=0 && validacionMes != 2);
+
+	do
+	{
+		tipo = getNumeros("ingrese el tipo de recaudacion del contribuyente:\n 1)ARBA\n 2)IIBB\n 3)GANANCIAS\n");
+		if(tipo == -2 || tipo == -1)
+		{
+			printf("no se ah podido cargar el cuil correctamente, desea intentarlo nuevamente?\n 1) SI\n 2) NO");
+			scanf("%d", &tipo);
+		}
+	}while(tipo !=0 && tipo != 1);
+
+
+	validacionImporte = getFloat(importe, "ingrese el importe a pagar", "ERROR, ingrese nuevamente el importe a pagar", 1, 10,5);
+
+	nuevaRecaudacion.id = id;
+	nuevaRecaudacion.mes = mes;
+	switch(tipo)
+	{
+	case 1:
+		nuevaRecaudacion.tipo.ARBA = 1;
+		break;
+
+	case 2:
+		nuevaRecaudacion.tipo.IIBB = 1;
+		break;
+
+	case 3:
+		nuevaRecaudacion.tipo.GANANCIAS = 1;
+		break;
+	}
+	nuevaRecaudacion.importe = importe;
+
+	id = tipoRecaudacion_obtenerID(id);
+
+	nuevaRecaudacion.tipo.idRecaudacion = id;
+}
+
+void RecaudacionesMayoresA1000(contribuyente miContribuyente, int TAM)
+{
+	int i;
+	int contador;
+
+	contador = 0;
+
+	for(i=0;i<TAM;i++)
+	{
+		if(miContribuyente[i].miRecaudacion.tipo.estado == SALDADO)
+		{
+			if(miContribuyente[i].miRecaudacion.importe>1000)
+			{
+				contador++;
+			}
+		}
+	}
+	printf("\nla cantidad de recaudaciones saldadas de importe mayor a $1000 es : %d\n", contador);
+}
+
+/*
+ * recaudacion.h
+ *
+ *  Created on: 23 jun. 2021
+ *      Author: Ususario<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+	<storageModule moduleId="org.eclipse.cdt.core.settings">
+		<cconfiguration id="cdt.managedbuild.config.gnu.mingw.exe.debug.1994999619">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.mingw.exe.debug.1994999619" moduleId="org.eclipse.cdt.core.settings" name="Debug">
+				<externalSettings/>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.PE64" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.mingw.exe.debug.1994999619" name="Debug" parent="cdt.managedbuild.config.gnu.mingw.exe.debug">
+					<folderInfo id="cdt.managedbuild.config.gnu.mingw.exe.debug.1994999619." name="/" resourcePath="">
+						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.exe.debug.1671007600" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.exe.debug">
+							<targetPlatform id="cdt.managedbuild.target.gnu.platform.mingw.exe.debug.1828546380" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.mingw.exe.debug"/>
+							<builder buildPath="${workspace_loc:/RPP_LABO1_2021_P1_MonsalboLucio}/Debug" id="cdt.managedbuild.tool.gnu.builder.mingw.base.362226768" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CDT Internal Builder" superClass="cdt.managedbuild.tool.gnu.builder.mingw.base"/>
+							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.exe.debug.351727598" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.exe.debug">
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.893195167" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.archiver.mingw.base.437938662" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.mingw.base"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.debug.1726707590" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.debug">
+								<option id="gnu.cpp.compiler.mingw.exe.debug.option.optimization.level.947270394" name="Optimization Level" superClass="gnu.cpp.compiler.mingw.exe.debug.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
+								<option defaultValue="gnu.cpp.compiler.debugging.level.max" id="gnu.cpp.compiler.mingw.exe.debug.option.debugging.level.1805236012" name="Debug Level" superClass="gnu.cpp.compiler.mingw.exe.debug.option.debugging.level" useByScannerDiscovery="false" valueType="enumerated"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.debug.914656225" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.debug">
+								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.mingw.exe.debug.option.optimization.level.1761458191" name="Optimization Level" superClass="gnu.c.compiler.mingw.exe.debug.option.optimization.level" useByScannerDiscovery="false" valueType="enumerated"/>
+								<option defaultValue="gnu.c.debugging.level.max" id="gnu.c.compiler.mingw.exe.debug.option.debugging.level.1975081096" name="Debug Level" superClass="gnu.c.compiler.mingw.exe.debug.option.debugging.level" useByScannerDiscovery="false" valueType="enumerated"/>
+								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.710781369" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.debug.370436418" name="MinGW C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.debug">
+								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.484291952" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.debug.638383533" name="MinGW C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.debug"/>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+		<cconfiguration id="cdt.managedbuild.config.gnu.mingw.exe.release.200570515">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.mingw.exe.release.200570515" moduleId="org.eclipse.cdt.core.settings" name="Release">
+				<externalSettings/>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.PE64" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.mingw.exe.release.200570515" name="Release" parent="cdt.managedbuild.config.gnu.mingw.exe.release">
+					<folderInfo id="cdt.managedbuild.config.gnu.mingw.exe.release.200570515." name="/" resourcePath="">
+						<toolChain id="cdt.managedbuild.toolchain.gnu.mingw.exe.release.141750029" name="MinGW GCC" superClass="cdt.managedbuild.toolchain.gnu.mingw.exe.release">
+							<targetPlatform id="cdt.managedbuild.target.gnu.platform.mingw.exe.release.998048148" name="Debug Platform" superClass="cdt.managedbuild.target.gnu.platform.mingw.exe.release"/>
+							<builder buildPath="${workspace_loc:/RPP_LABO1_2021_P1_MonsalboLucio}/Release" id="cdt.managedbuild.tool.gnu.builder.mingw.base.1828243924" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CDT Internal Builder" superClass="cdt.managedbuild.tool.gnu.builder.mingw.base"/>
+							<tool id="cdt.managedbuild.tool.gnu.assembler.mingw.exe.release.1580366458" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.mingw.exe.release">
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.66790322" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.archiver.mingw.base.342947895" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.mingw.base"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.release.8428407" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.release">
+								<option id="gnu.cpp.compiler.mingw.exe.release.option.optimization.level.717766345" name="Optimization Level" superClass="gnu.cpp.compiler.mingw.exe.release.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
+								<option defaultValue="gnu.cpp.compiler.debugging.level.none" id="gnu.cpp.compiler.mingw.exe.release.option.debugging.level.1618471124" name="Debug Level" superClass="gnu.cpp.compiler.mingw.exe.release.option.debugging.level" useByScannerDiscovery="false" valueType="enumerated"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.release.465078891" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.release">
+								<option defaultValue="gnu.c.optimization.level.most" id="gnu.c.compiler.mingw.exe.release.option.optimization.level.269828094" name="Optimization Level" superClass="gnu.c.compiler.mingw.exe.release.option.optimization.level" useByScannerDiscovery="false" valueType="enumerated"/>
+								<option defaultValue="gnu.c.debugging.level.none" id="gnu.c.compiler.mingw.exe.release.option.debugging.level.122535580" name="Debug Level" superClass="gnu.c.compiler.mingw.exe.release.option.debugging.level" useByScannerDiscovery="false" valueType="enumerated"/>
+								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1987629717" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.release.1442439367" name="MinGW C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.release">
+								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.999668250" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.release.1118209230" name="MinGW C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.release"/>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+	</storageModule>
+	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+		<project id="RPP_LABO1_2021_P1_MonsalboLucio.cdt.managedbuild.target.gnu.mingw.exe.110145046" name="Executable" projectType="cdt.managedbuild.target.gnu.mingw.exe"/>
+	</storageModule>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.exe.debug.1994999619;cdt.managedbuild.config.gnu.mingw.exe.debug.1994999619.;cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.debug.914656225;cdt.managedbuild.tool.gnu.c.compiler.input.710781369">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.exe.release.200570515;cdt.managedbuild.config.gnu.mingw.exe.release.200570515.;cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.release.465078891;cdt.managedbuild.tool.gnu.c.compiler.input.1987629717">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+</cproject>
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>RPP_LABO1_2021_P1_MonsalboLucio</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.cdt.managedbuilder.core.genmakebuilder</name>
+			<triggers>clean,full,incremental,</triggers>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.cdt.managedbuilder.core.ScannerConfigBuilder</name>
+			<triggers>full,incremental,</triggers>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.cdt.core.cnature</nature>
+		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
+		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
+	</natures>
+</projectDescription>
+
+ */
+
+#ifndef RECAUDACION_H_
+#define RECAUDACION_H_
+
+#include "contribuyente.h"
+
+typedef struct
+{
+	int id;
+	int mes;
+	tipoRecaudacion tipo;
+	float importe;
+}recaudacion;
+
+
+#endif /* RECAUDACION_H_ */
+
+		</extension>
+	</configuration>
+	<configuration id="cdt.managedbuild.config.gnu.mingw.exe.release.200570515" name="Release">
+		<extension point="org.eclipse.cdt.core.LanguageSettingsProvider">
+			<provider copy-of="extension" id="org.eclipse.cdt.ui.UserLanguageSettingsProvider"/>
+			<provider-reference id="org.eclipse.cdt.core.ReferencedProjectsLanguageSettingsProvider" ref="shared-provider"/>
+			<provider-reference id="org.eclipse.cdt.managedbuilder.core.MBSLanguageSettingsProvider" ref="shared-provider"/>
+			<provider class="org.eclipse.cdt.managedbuilder.internal.language.settings.providers.GCCBuiltinSpecsDetectorMinGW" console="false" env-hash="766132112434618236" id="org.eclipse.cdt.managedbuilder.core.GCCBuiltinSpecsDetectorMinGW" keep-relative-paths="false" name="CDT GCC Built-in Compiler Settings MinGW" parameter="${COMMAND} ${FLAGS} -E -P -v -dD &quot;${INPUTS}&quot;" prefer-non-shared="true">
+				<language-scope id="org.eclipse.cdt.core.gcc"/>
+				<language-scope id="org.eclipse.cdt.core.g++"/>
+			</provider>
+		</extension>
+	</configuration>
+</project>
